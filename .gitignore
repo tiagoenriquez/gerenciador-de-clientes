@@ -2,4 +2,4 @@ Include
 Lib
 Scripts
 __pycache__/
-databases/.database.db
+src/databases/.database.db
