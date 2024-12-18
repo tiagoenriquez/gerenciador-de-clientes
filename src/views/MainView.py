@@ -1,4 +1,7 @@
+from tkinter import messagebox
 import tkinter as tk
+from src.models.Cliente import Cliente
+from src.services.ClienteService import ClienteService
 
 
 class MainView:
@@ -46,7 +49,7 @@ class MainView:
         buscar_button = tk.Button(botoes_panel, text="Buscar", width=WIDTH-4)
         buscar_button.grid(row=1, column=0, padx=8, pady=8)
 
-        inserir_button = tk.Button(botoes_panel, text="Inserir", width=WIDTH-4)
+        inserir_button = tk.Button(botoes_panel, text="Inserir", width=WIDTH-4, command=self._inserir)
         inserir_button.grid(row=2, column=0, padx=8, pady=8)
 
         atualizar_button = tk.Button(botoes_panel, text="Atualizar Selecionados", width=WIDTH-4)
@@ -69,3 +72,14 @@ class MainView:
         scrollbar.config(command=clientes_list.yview)
 
         window.mainloop()
+    
+    def _inserir(self):
+        try:
+            ClienteService().inserir(Cliente(
+                self._nome_entry.get(),
+                self._sobrenome_entry.get(),
+                self._email_entry.get(),
+                self._cpf_entry.get()
+            ))
+        except Exception as exception:
+            messagebox.showerror(exception.args[0])

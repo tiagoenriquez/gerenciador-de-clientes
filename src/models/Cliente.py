@@ -3,7 +3,7 @@ class Cliente:
         self._nome = nome
         self._sobrenome = sobrenome
         self._email = email
-        self._cpf = cpf
+        self.cpf = cpf
         self._id = id
     
     @property
@@ -19,9 +19,11 @@ class Cliente:
         return self._email
     
     @property
-    def cpf(self):
-        return self._cpf
-    
-    @property
     def id(self):
         return self._id
+    
+    def data_for_insertion(self):
+        return [self._nome, self._sobrenome, self._email, self._cpf]
+    
+    def data_for_update(self):
+        return [self._nome, self._sobrenome, self._email, self._cpf, self._id]
