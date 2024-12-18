@@ -23,7 +23,7 @@ class Cliente:
         return self._id
     
     def data_for_insertion(self):
-        return [self._nome, self._sobrenome, self._email, self._cpf]
+        return [self._nome, self._sobrenome, self._email, self.cpf]
     
     def data_for_update(self):
-        return [self._nome, self._sobrenome, self._email, self._cpf, self._id]
+        return [self._nome, self._sobrenome, self._email, self.cpf, self._id]

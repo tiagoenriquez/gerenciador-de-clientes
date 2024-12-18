@@ -13,7 +13,7 @@ class MainView:
         cadastro_panel = tk.Frame(window)
         cadastro_panel.grid(row=0, column=0)
 
-        campos_panel = tk.Frame(window)
+        campos_panel = tk.Frame(cadastro_panel)
         campos_panel.grid(row=0, column=0)
 
         nome_label = tk.Label(campos_panel, text="Nome", width=int((WIDTH-3/8)/2))
@@ -40,10 +40,10 @@ class MainView:
         self._cpf_entry = tk.Entry(campos_panel, width=int((WIDTH-3/8)/2))
         self._cpf_entry.grid(row=3, column=1, padx=8, pady=8)
 
-        botoes_panel = tk.Frame(window)
+        botoes_panel = tk.Frame(cadastro_panel)
         botoes_panel.grid(row=1, column=0)
 
-        todos_button = tk.Button(botoes_panel, text="Ver todos", width=WIDTH-4)
+        todos_button = tk.Button(botoes_panel, text="Ver todos", width=WIDTH-4, command=self._listar)
         todos_button.grid(row=0, column=0, padx=8, pady=8)
 
         buscar_button = tk.Button(botoes_panel, text="Buscar", width=WIDTH-4)
@@ -67,9 +67,9 @@ class MainView:
         scrollbar = tk.Scrollbar(info_panel)
         scrollbar.pack(side="right", fill="y")
 
-        clientes_list = tk.Listbox(info_panel, yscrollcommand=scrollbar.set, width=64)
-        clientes_list.pack(side="left", fill="both")
-        scrollbar.config(command=clientes_list.yview)
+        self._clientes_list = tk.Listbox(info_panel, yscrollcommand=scrollbar.set, width=80, height=24)
+        self._clientes_list.pack(side="left", fill="both")
+        scrollbar.config(command=self._clientes_list.yview)
 
         window.mainloop()
     
@@ -81,5 +81,16 @@ class MainView:
                 self._email_entry.get(),
                 self._cpf_entry.get()
             ))
+            self._listar()
         except Exception as exception:
-            messagebox.showerror(exception.args[0])
+            messagebox.showerror("Erro", exception.args[0])
+    
+    def _listar(self):
+        try:
+            for cliente in ClienteService().listar():
+                self._clientes_list.insert(
+                    tk.END,
+                    f"{cliente.id}: {cliente.nome} {cliente.sobrenome}. E-mail: {cliente.email}. CPF: {cliente.cpf}"
+                )
+        except Exception as exception:
+            messagebox.showerror("Erro", exception.args[0])
