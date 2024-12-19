@@ -1,5 +1,8 @@
+build
+dist
 Include
 Lib
 Scripts
+main.spec
 __pycache__/
-src/databases/.database.db
+database.db
