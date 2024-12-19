@@ -35,3 +35,8 @@ class ClienteRepository:
                 cliente.data_for_update()
             )
             con.commit()
+    
+    def excluir(self, id: int):
+        with con:
+            con.execute("DELETE FROM clientes WHERE id = ?", [id])
+            con.commit()

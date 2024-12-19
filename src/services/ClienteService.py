@@ -46,3 +46,6 @@ class ClienteService:
         self._checar_cpf(cliente.cpf)
         cliente.cpf = self._editar_cpf(cliente.cpf)
         ClienteRepository().atualizar(cliente)
+    
+    def excluir(self, id: int):
+        ClienteRepository().excluir(id)

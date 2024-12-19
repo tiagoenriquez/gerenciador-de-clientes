@@ -60,7 +60,7 @@ class MainView:
         )
         atualizar_button.grid(row=3, column=0, padx=8, pady=8)
 
-        deletar_button = tk.Button(botoes_panel, text="Deletar Selecionados", width=WIDTH-4)
+        deletar_button = tk.Button(botoes_panel, text="Deletar Selecionados", width=WIDTH-4, command=self._excluir)
         deletar_button.grid(row=4, column=0, padx=8, pady=8)
 
         fechar_button = tk.Button(botoes_panel, text="Fechar", width=WIDTH-4)
@@ -98,6 +98,7 @@ class MainView:
                     tk.END,
                     f"{cliente.id}: {cliente.nome} {cliente.sobrenome}. E-mail: {cliente.email}. CPF: {cliente.cpf}"
                 )
+            self._limpar()
         except Exception as exception:
             messagebox.showerror("Erro", exception.args[0])
     
@@ -115,6 +116,17 @@ class MainView:
         except Exception as exception:
             messagebox.showerror("Erro", exception.args[0])
     
+    def _limpar(self):
+        self._cliente = None
+        self._nome_entry.delete(0, tk.END)
+        self._nome_entry.insert(0, "")
+        self._sobrenome_entry.delete(0, tk.END)
+        self._sobrenome_entry.insert(0, "")
+        self._email_entry.delete(0, tk.END)
+        self._email_entry.insert(0, "")
+        self._cpf_entry.delete(0, tk.END)
+        self._cpf_entry.insert(0, "")
+    
     def _atualizar(self):
         try:
             ClienteService().atualizar(Cliente(
@@ -124,6 +136,13 @@ class MainView:
                 self._cpf_entry.get(),
                 self._cliente.id
             ))
+            self._listar()
+        except Exception as exception:
+            messagebox.showerror("Erro", exception.args[0])
+    
+    def _excluir(self):
+        try:
+            ClienteService().excluir(self._cliente.id)
             self._listar()
         except Exception as exception:
             messagebox.showerror("Erro", exception.args[0])
