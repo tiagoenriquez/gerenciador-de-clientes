@@ -35,3 +35,6 @@ class ClienteService:
         if len(clientes) == 0:
             raise Exception("Não há clientes na base de dados.")
         return clientes
+    
+    def procurar(self, id: int):
+        return ClienteRepository().procurar(id)

@@ -14,9 +14,16 @@ class ClienteRepository:
     def listar(self):
         with con:
             cur = con.cursor()
-            cur.execute("SELECT * FROM clientes ORDER BY nome")
+            cur.execute("SELECT * FROM clienteS")
             res = cur.fetchall()
             clientes: list[Cliente] = []
             for row in res:
                 clientes.append(Cliente(row[1], row[2], row[3], row[4], row[0]))
             return clientes
+    
+    def procurar(self, id: int):
+        with con:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM clientes WHERE id = ?", [id])
+            res = cur.fetchone()
+            return Cliente(res[1], res[2], res[3], res[4], res[0])

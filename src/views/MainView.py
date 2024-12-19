@@ -46,7 +46,7 @@ class MainView:
         todos_button = tk.Button(botoes_panel, text="Ver todos", width=WIDTH-4, command=self._listar)
         todos_button.grid(row=0, column=0, padx=8, pady=8)
 
-        buscar_button = tk.Button(botoes_panel, text="Buscar", width=WIDTH-4)
+        buscar_button = tk.Button(botoes_panel, text="Buscar", width=WIDTH-4, command=self._procurar)
         buscar_button.grid(row=1, column=0, padx=8, pady=8)
 
         inserir_button = tk.Button(botoes_panel, text="Inserir", width=WIDTH-4, command=self._inserir)
@@ -92,5 +92,19 @@ class MainView:
                     tk.END,
                     f"{cliente.id}: {cliente.nome} {cliente.sobrenome}. E-mail: {cliente.email}. CPF: {cliente.cpf}"
                 )
+        except Exception as exception:
+            messagebox.showerror("Erro", exception.args[0])
+    
+    def _procurar(self):
+        try:
+            self._cliente = ClienteService().procurar(int(self._clientes_list.selection_get().split(":")[0]))
+            self._nome_entry.delete(0, tk.END)
+            self._nome_entry.insert(0, self._cliente.nome)
+            self._sobrenome_entry.delete(0, tk.END)
+            self._sobrenome_entry.insert(0, self._cliente.sobrenome)
+            self._email_entry.delete(0, tk.END)
+            self._email_entry.insert(0, self._cliente.email)
+            self._cpf_entry.delete(0, tk.END)
+            self._cpf_entry.insert(0, self._cliente.cpf)
         except Exception as exception:
             messagebox.showerror("Erro", exception.args[0])
