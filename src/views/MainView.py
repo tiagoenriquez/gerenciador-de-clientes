@@ -6,11 +6,11 @@ from src.services.ClienteService import ClienteService
 
 class MainView:
     def __init__(self):
-        window = tk.Tk()
-        window.title("Gerenciador de Clientes")
+        self._window = tk.Tk()
+        self._window.title("Gerenciador de Clientes")
         WIDTH = 64
 
-        cadastro_panel = tk.Frame(window)
+        cadastro_panel = tk.Frame(self._window)
         cadastro_panel.grid(row=0, column=0)
 
         campos_panel = tk.Frame(cadastro_panel)
@@ -63,10 +63,10 @@ class MainView:
         deletar_button = tk.Button(botoes_panel, text="Deletar Selecionados", width=WIDTH-4, command=self._excluir)
         deletar_button.grid(row=4, column=0, padx=8, pady=8)
 
-        fechar_button = tk.Button(botoes_panel, text="Fechar", width=WIDTH-4)
+        fechar_button = tk.Button(botoes_panel, text="Fechar", width=WIDTH-4, command=self._fechar)
         fechar_button.grid(row=5, column=0, padx=8, pady=8)
 
-        info_panel = tk.Frame(window)
+        info_panel = tk.Frame(self._window)
         info_panel.grid(row=0, column=1, padx=8, pady=8)
 
         scrollbar = tk.Scrollbar(info_panel)
@@ -76,7 +76,7 @@ class MainView:
         self._clientes_list.pack(side="left", fill="both")
         scrollbar.config(command=self._clientes_list.yview)
 
-        window.mainloop()
+        self._window.mainloop()
     
     def _inserir(self):
         try:
@@ -146,3 +146,6 @@ class MainView:
             self._listar()
         except Exception as exception:
             messagebox.showerror("Erro", exception.args[0])
+    
+    def _fechar(self):
+        self._window.destroy()
