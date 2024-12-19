@@ -38,3 +38,11 @@ class ClienteService:
     
     def procurar(self, id: int):
         return ClienteRepository().procurar(id)
+    
+    def atualizar(self, cliente: Cliente):
+        self._checar_nome(cliente.nome)
+        self._checar_nome(cliente.sobrenome)
+        self._checar_email(cliente.email)
+        self._checar_cpf(cliente.cpf)
+        cliente.cpf = self._editar_cpf(cliente.cpf)
+        ClienteRepository().atualizar(cliente)

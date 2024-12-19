@@ -27,3 +27,11 @@ class ClienteRepository:
             cur.execute("SELECT * FROM clientes WHERE id = ?", [id])
             res = cur.fetchone()
             return Cliente(res[1], res[2], res[3], res[4], res[0])
+    
+    def atualizar(self, cliente: Cliente):
+        with con:
+            con.execute(
+                "UPDATE clientes SET nome = ?, sobrenome = ?, email = ?, cpf = ? WHERE id = ?",
+                cliente.data_for_update()
+            )
+            con.commit()

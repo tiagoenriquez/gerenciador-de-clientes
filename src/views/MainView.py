@@ -52,7 +52,12 @@ class MainView:
         inserir_button = tk.Button(botoes_panel, text="Inserir", width=WIDTH-4, command=self._inserir)
         inserir_button.grid(row=2, column=0, padx=8, pady=8)
 
-        atualizar_button = tk.Button(botoes_panel, text="Atualizar Selecionados", width=WIDTH-4)
+        atualizar_button = tk.Button(
+            botoes_panel,
+            text="Atualizar Selecionados",
+            width=WIDTH-4,
+            command=self._atualizar
+        )
         atualizar_button.grid(row=3, column=0, padx=8, pady=8)
 
         deletar_button = tk.Button(botoes_panel, text="Deletar Selecionados", width=WIDTH-4)
@@ -87,6 +92,7 @@ class MainView:
     
     def _listar(self):
         try:
+            self._clientes_list.delete(0, tk.END)
             for cliente in ClienteService().listar():
                 self._clientes_list.insert(
                     tk.END,
@@ -105,6 +111,19 @@ class MainView:
             self._email_entry.delete(0, tk.END)
             self._email_entry.insert(0, self._cliente.email)
             self._cpf_entry.delete(0, tk.END)
-            self._cpf_entry.insert(0, self._cliente.cpf)
+            self._cpf_entry.insert(0, self._cliente.cpf.replace(".", "").replace("-", ""))
+        except Exception as exception:
+            messagebox.showerror("Erro", exception.args[0])
+    
+    def _atualizar(self):
+        try:
+            ClienteService().atualizar(Cliente(
+                self._nome_entry.get(),
+                self._sobrenome_entry.get(),
+                self._email_entry.get(),
+                self._cpf_entry.get(),
+                self._cliente.id
+            ))
+            self._listar()
         except Exception as exception:
             messagebox.showerror("Erro", exception.args[0])
